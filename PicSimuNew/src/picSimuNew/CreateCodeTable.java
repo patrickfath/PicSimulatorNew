@@ -51,8 +51,16 @@ public class CreateCodeTable {
 			testTable.setSelection(indexI+1);
 		}
 	}
+	
+	public static void nextStep() {
+		int selIndex = testTable.getSelectionIndex();
+		testTable.setSelection(selIndex+1);
+	}
+	
+	
 
 
+	//death
 	public static void insertText(String lineOfDocument) {
 
 		TableItem item = new TableItem(testTable, SWT.NONE);

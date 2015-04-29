@@ -13,6 +13,10 @@ public class Worker {
 			}
 		}
 	}
+	
+	
+	
+	
 
 	public static void stepThrough() {
 		int instructions = Integer.parseInt(hexCodes.get(0),16);

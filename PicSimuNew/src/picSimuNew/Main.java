@@ -7,6 +7,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -29,6 +30,7 @@ public class Main {
 	static String getLine;
 	static Composite leftDown;
 	static Composite leftUp;
+	static Composite rightSide;
 	static String[] arrayWithLines;
 	static ArrayList<String> arrayLinesReadIn = new ArrayList<>();
 
@@ -60,7 +62,7 @@ public class Main {
 				arrayLinesReadIn.clear();
 				arrayLinesReadIn = OpenDocument.openDocument(leftDown, arrayLinesReadIn);
 //				CreateCodeTable.arrayInsertAllInOne(arrayLinesReadIn);
-//				Worker.workWithArrayList(arrayLinesReadIn);
+				Worker.workWithArrayList(arrayLinesReadIn);
 			}
 		});
 		return dateiMenu;
@@ -73,7 +75,7 @@ public class Main {
 		leftSide.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 
 		//Composite for the "rightSide"
-		Composite rightSide = new Composite(shell, SWT.BORDER);
+		rightSide = new Composite(shell, SWT.BORDER);
 		rightSide.setLayout(new GridLayout());
 		rightSide.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -91,6 +93,18 @@ public class Main {
 		leftDown.setLayout(new GridLayout());
 		leftDown.setLayoutData(data);
 	}
+	
+	public static void createStepBtn() {
+		Button nextStepButton = new Button(rightSide, SWT.PUSH);
+		nextStepButton.setLayoutData(new GridData());
+		nextStepButton.setText("Step");
+		nextStepButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				System.err.println("lollll");
+				CreateCodeTable.nextStep();
+			}
+		});
+	}
 
 
 	public static void main (String [] args) {
@@ -100,6 +114,7 @@ public class Main {
 
 		CreateRegister.createTheRegister(leftUp);
 		CreateCodeTable.createTable(leftDown);
+		createStepBtn();
 
 
 		shell.open ();
