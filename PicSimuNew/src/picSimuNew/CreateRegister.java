@@ -2,8 +2,11 @@ package picSimuNew;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -26,16 +29,19 @@ public class CreateRegister {
 			}		
 			table.getColumn(i).pack();
 		}
-
+		int zeileDez = 0;
 		for(int i = 0; i < 20; i++) {
+			Device device = Display.getCurrent();
+			Color grey = new Color(device, 160, 160,160);
 			TableItem item = new TableItem(table, SWT.NONE);
-			TableEditor editor = new TableEditor(table);
-			Text label = new Text(table, SWT.NONE);
-			label.setEditable(false);
-			label.setText("a");
+			String zeileHexa = Integer.toHexString(zeileDez);
+			if (zeileHexa.length() < 2) {
+				zeileHexa = '0' + zeileHexa;
+			}
+			item.setBackground(0,grey);
+			item.setText(0,String.valueOf(zeileHexa));
 
-			editor.grabHorizontal = true;
-			editor.setEditor(label, item, 0);
+			zeileDez = zeileDez + 8;
 		}
 
 	}

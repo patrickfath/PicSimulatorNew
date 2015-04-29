@@ -16,7 +16,7 @@ public class CreateCodeTable {
 	public static void createTable(Composite linksUnten) {
 		testTable = new Table(linksUnten, SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION );
 		testTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		testTable.setLinesVisible(true);
+//		testTable.setLinesVisible(true);
 		testTable.setHeaderVisible(false);
 		TableColumn checkColumn = new TableColumn(testTable, SWT.NONE);
 		checkColumn.setText("x");
