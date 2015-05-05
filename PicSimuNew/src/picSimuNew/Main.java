@@ -1,6 +1,7 @@
 package picSimuNew;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,12 +26,14 @@ public class Main {
 	static MenuItem openFile;
 	static Text textMain;
 	static String path;
+	static int counterInexOfArray = 0;
 	static boolean flag;
 	static Label label;
 	static String getLine;
 	static Composite leftDown;
 	static Composite leftUp;
 	static Composite rightSide;
+	static Composite leftUpRight;
 	static String[] arrayWithLines;
 	static ArrayList<String> arrayLinesReadIn = new ArrayList<>();
 
@@ -61,8 +64,9 @@ public class Main {
 			public void widgetSelected(SelectionEvent e) {
 				arrayLinesReadIn.clear();
 				arrayLinesReadIn = OpenDocument.openDocument(leftDown, arrayLinesReadIn);
-//				CreateCodeTable.arrayInsertAllInOne(arrayLinesReadIn);
-				Worker.workWithArrayList(arrayLinesReadIn);
+//				Worker.workWithArrayList(arrayLinesReadIn);
+				//TODO	one method call only
+				Worker.subSTheArrayList(arrayLinesReadIn);
 			}
 		});
 		return dateiMenu;
@@ -71,22 +75,27 @@ public class Main {
 	public static void createComposites() {
 		//Composite for "leftSide"
 		Composite leftSide = new Composite(shell, SWT.BORDER);
-		leftSide.setLayout(new GridLayout(1,false));
+		leftSide.setLayout(new GridLayout(2,false));
 		leftSide.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 
 		//Composite for the "rightSide"
 		rightSide = new Composite(shell, SWT.BORDER);
-		rightSide.setLayout(new GridLayout());
+		rightSide.setLayout(new GridLayout(2,true));
 		rightSide.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		//GridData for Composite "leftUp"
-		GridData grids = new GridData(SWT.LEFT, SWT.FILL, false, true);
+		GridData grids = new GridData(SWT.LEFT, SWT.FILL, false, true,1,1);
 		leftUp = new Composite(leftSide, SWT.BORDER);
 		leftUp.setLayout(new GridLayout());
 		leftUp.setLayoutData(grids);
+		
+		GridData gridFBtns = new GridData(SWT.FILL, SWT.FILL, false, true,1,1);
+		leftUpRight = new Composite(leftSide, SWT.BORDER);
+		leftUpRight.setLayout(new GridLayout());
+		leftUpRight.setLayoutData(gridFBtns);
 
 		//GridData for Composite "leftDown"
-		GridData data = new GridData(SWT.FILL, SWT.FILL, false, true);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, false, true,2,1);
 		data.widthHint = 800;
 		data.heightHint = 400;
 		leftDown = new Composite(leftSide, SWT.BORDER);
@@ -95,13 +104,29 @@ public class Main {
 	}
 	
 	public static void createStepBtn() {
-		Button nextStepButton = new Button(rightSide, SWT.PUSH);
+		Button nextStepButton = new Button(leftUpRight, SWT.PUSH);
 		nextStepButton.setLayoutData(new GridData());
 		nextStepButton.setText("Step");
 		nextStepButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				System.err.println("lollll");
-				CreateCodeTable.nextStep();
+//				System.err.println("lollll");
+//				CreateCodeTable.nextStep();
+				Worker.stepByStepClick(arrayLinesReadIn);
+				counterInexOfArray++;
+				
+				System.err.println(counterInexOfArray);
+			}
+		});
+	}
+	
+	public static void createRunBtn() {
+		Button runBtn = new Button(leftUpRight, SWT.PUSH);
+		runBtn.setLayoutData(new GridData());
+		runBtn.setText("RUN");
+		runBtn.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+//				Worker.runStepThrough(arrayLinesReadIn);
+				
 			}
 		});
 	}
@@ -109,12 +134,18 @@ public class Main {
 
 	public static void main (String [] args) {
 		Main picSimulator = new Main();
+		
 		createMenu();
 		createComposites();
 
+		CreateStateRegister.createAllStates(rightSide);
 		CreateRegister.createTheRegister(leftUp);
 		CreateCodeTable.createTable(leftDown);
+		
+		
 		createStepBtn();
+		createRunBtn();
+		
 
 
 		shell.open ();
